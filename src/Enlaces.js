@@ -1,10 +1,16 @@
+// para empezar necesitamos de librerias para ahorrarnos un poco el codigo
+// express nos sirve para las funciones basicas de un servidor
 const Express = require ('express')
+// esto nos ayuda a decodificar los datos que provienen del usuario
 const BodyParser = require ('body-parser')
+// ya no recuerdo para que pero era importante XD
 const cors = require ('cors')
+// Esto para consumir otras posibles aplicaciones que esten dentro de tu mismo servidor 
 const MethodOverride = require ('method-override')
 
+// Aqui corremos el servidor
 const App = Express()
-
+// Con estas lineas le añadimos funcionalidad al servidor como lo serian las respuestas de tipo JSON y otras cosas
 App.use(BodyParser.urlencoded({extended:false}))
 App.use(BodyParser.json())
 App.use(MethodOverride())
@@ -16,6 +22,7 @@ App.use(function(req, res, next) {
     next()
 })
 
+// esto es nuestro primer endpoint
 App.get('/api/combo/:ID', (req, res) => {
     if (!req.params.ID) {
         return res.status(400).send({Message: 'Necesitas enviarme un precio para cambiarlo a pesos', Ejemplo: '58000'})
