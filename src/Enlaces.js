@@ -23,19 +23,40 @@ App.use(function(req, res, next) {
 })
 
 // esto es nuestro primer endpoint
+// Nuestro servidor App va a escuchar a través del método GET
+// y la ruta será {si estas desde tu laptop será localhost:puertoconfigurado/api/combo/numeroquerecibira}
+// el :ID indica que la ruta allí será dinámica
+// se ejecutará esa función si la persona entra explícitamente a este endpoint, si tiene más valores no será recibida
 App.get('/api/combo/:ID', (req, res) => {
+    // cuando app reciba ese endpoint ejecutará una función asíncrona (callback) recibiendo dos parámetros explicado en la carpeta calculadora
     if (!req.params.ID) {
         return res.status(400).send({Message: 'Necesitas enviarme un precio para cambiarlo a pesos', Ejemplo: '58000'})
     }
+    // se gestionan las variables
     var descuento = parseFloat(req.params.ID) * 0.44
     var cargo = 760;
     let resultado = parseFloat(req.params.ID) - descuento + cargo;
+    // se devuelve el resultado en respuesta de tipo JSON
     return res.status(200).send({
         Total: resultado,
         Descuento: descuento,
         Recibi_de_ti: parseFloat(req.params.ID)
     })
 }) 
+
+
+// ahora hagamos una calculadora, para eso necesitaremos los archivos que se crearon en la carpeta calculadora
+// se importara el archivo de la siguiente manera:
+const Calculadora = require ('./Calculadora/sumas')
+
+// Ahora hagamos uso de las funciones
+// estas son distintas de las demás porque organizamos mejor el codigo enviando las funciones 
+// a carpetas y archivos separados y gracias a module.exports={} podemos acceder a ellos como si fuesen un objeto
+App.get('/api/calculadora/sumar/:A/:B', Calculadora.sumar)
+App.get('/api/calculadora/restar/:A/:B', Calculadora.restar)
+App.get('/api/calculadora/multiplicar/:A/:B', Calculadora.multiplicar)
+App.get('/api/calculadora/dividir/:A/:B', Calculadora.dividir)
+
 App.get('/api/sumacombo/:COMBO/:COMB', (req, res) => {
     if (!req.params.COMBO || !req.params.COMB) {
         return res.status(400).send({Message: 'Necesitas enviarme la sumatoria', Ejemplo: 'base/api/sumacombo/COMBO1/COMBO2'})
@@ -53,6 +74,7 @@ App.get('/api/sumacombo/:COMBO/:COMB', (req, res) => {
     })
 }) 
 
+// para el resto de las llamadas se ejectará este endpoint indicandole que esta ruta no existe
 App.all('/*', (req,res) => {
     console.log(`Rechaze Peticion invalida de ${req.url} a traves del metodo ${req.originalMethod}`)
     res.status(404).send({StatusCode: 404, Data: '', Message: 'Esta página no existe', Results: 0})
