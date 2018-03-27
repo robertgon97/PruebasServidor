@@ -10,6 +10,9 @@ function sumar (require, response) { // Cada función recibe 2 parametros, los n
         // devolvemos 400 (Lease http codes en wikipedia) para indicarle al usuario que nos faltan datos importantes
         return response.status(400).send({Mensaje: 'Falta que me envies datos'})
     }
+    // parseamos los datos ya que vienen de modo String
+    require.params.A = parseInt(require.params.A)
+    require.params.B = parseInt(require.params.B)
     // si no nos faltan datos, respondemos con un 200 (OK) que todo se hizo satisfactoriamente
     return response.status(200).send({Resultado: require.params.A + require.params.B})
 }
@@ -18,6 +21,9 @@ function restar (require, response) {
     if (!require.params.A || !require.params.B) {
         return response.status(400).send({Mensaje: 'Falta que me envies datos'})
     }
+    // parseamos los datos ya que vienen de modo String
+    require.params.A = parseInt(require.params.A)
+    require.params.B = parseInt(require.params.B)
     return response.status(200).send({Resultado: require.params.A - require.params.B})
 }
 
@@ -25,6 +31,9 @@ function multiplicar (require, response) {
     if (!require.params.A || !require.params.B) {
         return response.status(400).send({Mensaje: 'Falta que me envies datos'})
     }
+    // parseamos los datos ya que vienen de modo String
+    require.params.A = parseInt(require.params.A)
+    require.params.B = parseInt(require.params.B)
     return response.status(200).send({Resultado: require.params.A * require.params.B})
 }
 
@@ -32,6 +41,9 @@ function dividir (require, response) {
     if (!require.params.A || !require.params.B) {
         return response.status(400).send({Mensaje: 'Falta que me envies datos'})
     }
+    // parseamos los datos ya que vienen de modo String
+    require.params.A = parseInt(require.params.A)
+    require.params.B = parseInt(require.params.B)
     return response.status(200).send({Resultado: require.params.A / require.params.B})
 }
 
